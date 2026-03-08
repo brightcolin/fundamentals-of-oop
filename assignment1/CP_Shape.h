@@ -1,7 +1,7 @@
 #ifndef CP_SHAPE_H
 #define CP_SHAPE_H
 
-class CP_Shape
+class Shape
 {
     protected:
         char m_char;
