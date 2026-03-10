@@ -9,7 +9,8 @@
 ```
 .
 ├── assignment1/        # Assignment 1 - Shape Puzzle System
-└── assignment2/        # Assignment 2 - GCD & LCM Calculator
+├── assignment2/        # Assignment 2 - GCD & LCM Calculator
+└── assignment3/        # Assignment 3 - Shape Calculation System
 ```
 
 ---
@@ -59,6 +60,31 @@ g++ -std=c++17 CP_Main.cpp CP_GCD.cpp CP_LCM.cpp -o main
 # Run tests
 g++ -std=c++17 CP_TestMain.cpp CP_GCD.cpp CP_LCM.cpp CP_Test.cpp -o run_test
 ./run_test.exe
+```
+
+---
+
+## 📝 Assignment 3 — Shape Calculation System
+
+A shape perimeter and area calculator using a 3-layer inheritance structure. Supports 5 shapes: equilateral triangle, square, regular pentagon, regular hexagon, and circle.
+
+**Key Concepts:** Multi-level inheritance, shared formula in intermediate base class, polymorphism
+
+| File | Description |
+|------|-------------|
+| `Shape.h` | Abstract base class with `perimeter()`, `area()`, `name()` |
+| `RegularPolygon.h/.cpp` | Intermediate base class with unified regular polygon formula |
+| `EquilateralTriangle.h/.cpp` | Equilateral triangle (n=3) |
+| `Square.h/.cpp` | Square (n=4) |
+| `RegularPentagon.h/.cpp` | Regular pentagon (n=5) |
+| `RegularHexagon.h/.cpp` | Regular hexagon (n=6) |
+| `Circle.h/.cpp` | Circle, directly inherits Shape |
+| `ShapeMain.cpp` | Main program |
+
+**How to run:**
+```bash
+g++ -std=c++11 ShapeMain.cpp RegularPolygon.cpp EquilateralTriangle.cpp Square.cpp RegularPentagon.cpp RegularHexagon.cpp Circle.cpp -o hw3
+./hw3.exe
 ```
 
 ---
