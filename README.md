@@ -8,84 +8,22 @@
 
 ```
 .
-├── assignment1/        # Assignment 1 - Shape Puzzle System
-├── assignment2/        # Assignment 2 - GCD & LCM Calculator
-└── assignment3/        # Assignment 3 - Shape Calculation System
+├── assignment1/    # Shape Puzzle System        图形拼图系统
+├── assignment2/    # GCD & LCM Calculator       最大公约数与最小公倍数
+├── assignment3/    # Shape Calculation System   图形计算系统
+└── assignment4/    # Calendar Calculator        日历计算系统
 ```
 
 ---
 
-## 📝 Assignment 1 — Shape Puzzle System
+## 📝 Assignments Overview
 
-A console-based character drawing program using OOP. Supports circles, rectangles, and isosceles triangles rendered on a 60×25 character canvas.
-
-**Key Concepts:** Abstract base class, inheritance, polymorphism
-
-| File | Description |
-|------|-------------|
-| `CP_Shape.h` | Abstract base class |
-| `CP_Circle.h/.cpp` | Circle derived class |
-| `CP_Rect.h/.cpp` | Rectangle derived class |
-| `CP_Triangle.h/.cpp` | Triangle derived class |
-| `CP_ShapeMain.cpp` | Main program |
-
-**How to run:**
-```bash
-g++ -std=c++11 CP_ShapeMain.cpp CP_Circle.cpp CP_Rect.cpp CP_Triangle.cpp -o shapes
-./shapes.exe
-```
-
----
-
-## 📝 Assignment 2 — GCD & LCM Calculator
-
-A GCD and LCM calculation system using OOP. GCD is computed using the Binary GCD (Stein) algorithm with no division or modulo operations.
-
-**Key Concepts:** Single responsibility principle, class composition, exception handling
-
-| File | Description |
-|------|-------------|
-| `CP_GCD.h/.cpp` | GCD class (Binary GCD / Stein algorithm) |
-| `CP_LCM.h/.cpp` | LCM class (composes GCD internally) |
-| `CP_Test.h/.cpp` | Automated test framework |
-| `CP_TestMain.cpp` | Test entry point |
-| `CP_Main.cpp` | Main program |
-
-**How to run:**
-```bash
-# Main program
-g++ -std=c++17 CP_Main.cpp CP_GCD.cpp CP_LCM.cpp -o main
-./main.exe
-
-# Run tests
-g++ -std=c++17 CP_TestMain.cpp CP_GCD.cpp CP_LCM.cpp CP_Test.cpp -o run_test
-./run_test.exe
-```
-
----
-
-## 📝 Assignment 3 — Shape Calculation System
-
-A shape perimeter and area calculator using a 3-layer inheritance structure. Supports 5 shapes: equilateral triangle, square, regular pentagon, regular hexagon, and circle.
-
-**Key Concepts:** Multi-level inheritance, shared formula in intermediate base class, polymorphism
-
-| File | Description |
-|------|-------------|
-| `Shape.h` | Abstract base class with `perimeter()`, `area()`, `name()` |
-| `RegularPolygon.h/.cpp` | Intermediate base class with unified regular polygon formula |
-| `EquilateralTriangle.h/.cpp` | Equilateral triangle (n=3) |
-| `Square.h/.cpp` | Square (n=4) |
-| `RegularPentagon.h/.cpp` | Regular pentagon (n=5) |
-| `RegularHexagon.h/.cpp` | Regular hexagon (n=6) |
-| `Circle.h/.cpp` | Circle, directly inherits Shape |
-| `ShapeMain.cpp` | Main program |
-
-**How to run:**
-```bash
-g++ -std=c++11 ShapeMain.cpp RegularPolygon.cpp EquilateralTriangle.cpp Square.cpp RegularPentagon.cpp RegularHexagon.cpp Circle.cpp -o hw3
-./hw3.exe
-```
+| # | Title | Key Concepts | Language Standard |
+|---|-------|--------------|-------------------|
+| 1 | Shape Puzzle System | Abstract base class, inheritance, polymorphism, canvas rendering | C++11 |
+| 2 | GCD & LCM Calculator | Single responsibility, class composition, Binary GCD (Stein algorithm) | C++17 |
+| 3 | Shape Calculation System | Multi-level inheritance, shared formula in intermediate base class | C++11 |
+| 4 | Calendar Calculator | Inheritance, Julian Day Number (JDN), B.C./A.D. support | C++11 |
 
 ---
 
@@ -95,7 +33,8 @@ g++ -std=c++11 ShapeMain.cpp RegularPolygon.cpp EquilateralTriangle.cpp Square.c
 |------|---------|
 | OS | Windows 10 / 11 |
 | IDE | Visual Studio Code |
-| Compiler | g++ (MinGW-w64), C++11/17 |
+| Compiler | g++ (MinGW-w64) |
+| Standard | C++11 / C++17 (per assignment) |
 
 ---
 
