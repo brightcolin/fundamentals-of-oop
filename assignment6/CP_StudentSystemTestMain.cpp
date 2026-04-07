@@ -1,16 +1,3 @@
-// ============================================================
-// CP_StudentSystemTestMain.cpp  --  Automated test entry point
-//
-// Compile:
-//   g++ -std=c++11 CP_StudentSystemTestMain.cpp
-//       CP_Student.cpp CP_ChainDoubleLink.cpp
-//       CP_StudentSystem.cpp CP_StudentSystemTest.cpp
-//       -o run_test
-//
-// Run:
-//   .\run_test.exe
-// ============================================================
-
 #include <iostream>
 using namespace std;
 
