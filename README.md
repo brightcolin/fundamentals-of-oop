@@ -8,15 +8,15 @@
 
 ```
 .
-├── assignment1/    # Shape Puzzle System        图形拼图系统
-├── assignment2/    # GCD & LCM Calculator       最大公约数与最小公倍数
-├── assignment3/    # Shape Calculation System   图形计算系统
-├── assignment4/    # Calendar Calculator        日历计算系统
-├── assignment5/    # Complex Number Class       复数类
-├── assignment6/    # Student System (List)      学生管理系统（双向链表）
-├── assignment7/    # MyVector<T>                手写动态数组模板
-├── assignment8/    # Big Integer by String      字符串大整数
-├── assignment9/    # Grade Sheet System         成绩单系统
+├── assignment01/   # Shape Puzzle System        图形拼图系统
+├── assignment02/   # GCD & LCM Calculator       最大公约数与最小公倍数
+├── assignment03/   # Shape Calculation System   图形计算系统
+├── assignment04/   # Calendar Calculator        日历计算系统
+├── assignment05/   # Complex Number Class       复数类
+├── assignment06/   # Student System (List)      学生管理系统（双向链表）
+├── assignment07/   # MyVector<T>                手写动态数组模板
+├── assignment08/   # Big Integer by String      字符串大整数
+├── assignment09/   # Grade Sheet System         成绩单系统
 ├── assignment10/   # DynArray (RAII/Move)       移动语义与RAII包装器
 ├── assignment11/   # Vector Operations          向量运算（标量乘法/点积）
 ├── assignment12/   # Integer Parser             整数字符串解析与异常
@@ -58,4 +58,4 @@
 
 ---
 
-> 🔒 This repository is private. Course is currently in progress.
+> Course is now complete.
