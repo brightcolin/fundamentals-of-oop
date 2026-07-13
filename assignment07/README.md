@@ -1,83 +1,63 @@
-# Assignment 7 — MyVector\<T\> & IntSorter
+# Assignment 07 — `MyVector<T>` and IntSorter / 动态数组模板与整数排序
 
-> 手写动态数组模板 + 整数排序 | 面向对象程序设计基础 第 7 次作业
+[Home / 首页](../README.md) · C++11
 
----
+## Overview / 项目简介
 
-## 📌 Description
+This assignment contains two related components: a from-scratch dynamic-array template modeled after `std::vector`, and an integer sorter built on that container. It also includes demonstrations, tests, and a benchmark against `std::vector`.
 
-Two parts:
+本作业包含两个相关模块：仿照 `std::vector` 手写的动态数组模板，以及基于该容器实现的整数排序器；同时提供演示、测试和与 `std::vector` 的性能比较。
 
-1. **`MyVector<T>`** — a from-scratch dynamic array template mirroring `std::vector`: rule-of-three, `reserve`/`resize`, iterators, and bounds-checked `at()`.
-2. **`CP_IntSorter`** — reads integers from stdin, sorts them with and without deduplication using `MyVector<int>`.
+## `MyVector<T>` Interface / 接口
 
----
+| Category / 类别 | Operations / 操作 |
+|---|---|
+| Lifetime / 生命周期 | Default, fill, copy construction; copy assignment / 默认、填充、复制构造与复制赋值 |
+| Capacity / 容量 | `size`, `capacity`, `empty`, `reserve`, `resize` |
+| Access / 访问 | `operator[]`, checked `at()` / `operator[]` 与带检查的 `at()` |
+| Modifiers / 修改 | `push_back`, `pop_back`, `clear` |
+| Iteration / 迭代 | `begin`, `end`, range-for support / 支持范围 `for` |
 
-## 📁 File Structure
+The container follows the rule of three and doubles capacity when additional storage is needed. Template definitions live in `MyVector.tpp`, which is included by `MyVector.h`.
 
-```
-assignment7/
-├── MyVector.h                  # Template class declaration
-├── MyVector.tpp                # Template implementation (included by MyVector.h)
-│
-├── CP_IntSorter.h              # gb_readInput / gb_sortNoDedup / gb_sortDedup / gb_run
-├── CP_IntSorter.cpp            # Implementation
-├── CP_IntSorterMain.cpp        # Entry point: interactive sort program
-├── CP_IntSorterTest.h
-├── CP_IntSorterTest.cpp        # IntSorter tests
-├── CP_IntSorterTestMain.cpp    # Entry point: IntSorter tests
-│
-├── CP_MyVectorDemo.h
-├── CP_MyVectorDemo.cpp         # gb_runDemo — walkthrough of MyVector API
-├── CP_MyVectorDemoMain.cpp     # Entry point: demo
-│
-├── CP_MyVectorTest.h
-├── CP_MyVectorTest.cpp         # gb_testMyVector — automated MyVector tests
-├── CP_MyVectorTestMain.cpp     # Entry point: MyVector tests
-│
-├── CP_VectorBenchmark.h
-├── CP_VectorBenchmark.cpp      # gb_runBenchmark — MyVector vs std::vector timing
-└── CP_VectorBenchmarkMain.cpp  # Entry point: benchmark
+容器遵循三法则，并在空间不足时将容量翻倍。模板定义放在 `MyVector.tpp` 中，由 `MyVector.h` 包含。
+
+## Files / 文件结构
+
+```text
+assignment07/
+├── MyVector.h / MyVector.tpp
+├── CP_IntSorter.h / CP_IntSorter.cpp / CP_IntSorterMain.cpp
+├── CP_IntSorterTest.h / CP_IntSorterTest.cpp / CP_IntSorterTestMain.cpp
+├── CP_MyVectorDemo.h / CP_MyVectorDemo.cpp / CP_MyVectorDemoMain.cpp
+├── CP_MyVectorTest.h / CP_MyVectorTest.cpp / CP_MyVectorTestMain.cpp
+└── CP_VectorBenchmark.h / CP_VectorBenchmark.cpp / CP_VectorBenchmarkMain.cpp
 ```
 
----
+## Build and Run / 编译运行
 
-## 🏗️ MyVector\<T\> Interface
+```powershell
+# MyVector demo / MyVector 演示
+g++ -std=c++11 -o myvector_demo.exe CP_MyVectorDemo.cpp CP_MyVectorDemoMain.cpp
+.\myvector_demo.exe
 
-| Category | Methods |
-|----------|---------|
-| Constructors | default, `(n, val)`, copy |
-| Capacity | `size()`, `capacity()`, `empty()`, `reserve(n)`, `resize(n, val)` |
-| Access | `operator[]`, `at()` (throws `std::out_of_range`) |
-| Modifiers | `push_back()`, `pop_back()`, `clear()` |
-| Iterators | `begin()`, `end()` (raw pointer, compatible with range-for) |
+# MyVector tests / MyVector 测试
+g++ -std=c++11 -o myvector_test.exe CP_MyVectorTest.cpp CP_MyVectorTestMain.cpp
+.\myvector_test.exe
 
-Growth strategy: doubles capacity when full (same as typical STL implementations).
-
----
-
-## 🚀 How to Compile & Run
-
-```bash
-# MyVector demo
-g++ -std=c++11 CP_MyVectorDemoMain.cpp CP_MyVectorDemo.cpp -o demo
-.\demo.exe
-
-# MyVector automated tests
-g++ -std=c++11 CP_MyVectorTestMain.cpp CP_MyVectorTest.cpp -o test
-.\test.exe
-
-# MyVector vs std::vector benchmark
-g++ -std=c++11 -O2 CP_VectorBenchmarkMain.cpp CP_VectorBenchmark.cpp -o benchmark
+# Benchmark / 性能测试
+g++ -std=c++11 -O2 -o benchmark.exe CP_VectorBenchmark.cpp CP_VectorBenchmarkMain.cpp
 .\benchmark.exe
 
-# IntSorter interactive program
-g++ -std=c++11 CP_IntSorterMain.cpp CP_IntSorter.cpp -o sorter
+# IntSorter and tests / 排序程序及测试
+g++ -std=c++11 -o sorter.exe CP_IntSorter.cpp CP_IntSorterMain.cpp
 .\sorter.exe
-
-# IntSorter tests
-g++ -std=c++11 CP_IntSorterTestMain.cpp CP_IntSorter.cpp CP_IntSorterTest.cpp -o test_sorter
-.\test_sorter.exe
+g++ -std=c++11 -o sorter_test.exe CP_IntSorter.cpp CP_IntSorterTest.cpp CP_IntSorterTestMain.cpp
+.\sorter_test.exe
 ```
 
-> Use `-O2` for the benchmark to get meaningful timing comparisons.
+Use `-O2` for meaningful benchmark results. / 性能测试建议使用 `-O2` 优化。
+
+---
+
+[Previous / 上一项](../assignment06/README.md) · [Next / 下一项](../assignment08/README.md)

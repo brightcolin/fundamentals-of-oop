@@ -1,102 +1,58 @@
-# Assignment 4 — Calendar Calculator
+# Assignment 04 — Calendar Calculator / 日历计算系统
 
-> 日历计算系统 | 面向对象程序设计基础 第 4 次作业 · 第 1 题
+[Home / 首页](../README.md) · C++11
 
----
+## Overview / 项目简介
 
-## 📌 Description
+A date calculator that moves forward or backward by an arbitrary number of days. It supports both B.C. and A.D. dates and crosses the era boundary without introducing a historical year zero.
 
-A calendar date calculator that computes the date `n` days after (or before) any given date. Supports both **A.D. and B.C. years**, and correctly crosses the B.C./A.D. boundary.
+这是一个按任意天数向前或向后推算日期的程序，支持公元前与公元纪年，并能正确跨越不存在历史公元 0 年的纪年边界。
 
-**Core algorithm:** Julian Day Number (JDN) — an international standard used in astronomy. Converting a date to JDN and back takes O(1) time with no loops, regardless of how large `n` is.
+## Design / 设计
 
----
-
-## 📁 File Structure
-
-```
-assignment4/
-├── CP_Calendar.h          # Base class declaration
-├── CP_Calendar.cpp        # isLeapYear, daysInMonth, toJDN, fromJDN, addDays
-├── CP_CalendarEx.h        # Derived class declaration (B.C. support)
-├── CP_CalendarEx.cpp      # Year conversion, B.C. output, cross-era addDays
-└── CP_CalendarMain.cpp    # Main program: loop input, [q] to quit
+```text
+CP_Calendar   (base class: Gregorian date and JDN conversion)
+              （基类：公历日期与儒略日转换）
+└── CP_CalendarEx (derived class: B.C./A.D. presentation)
+                  （派生类：公元前/公元显示）
 ```
 
----
+The core converts a date to a Julian Day Number (JDN), adds `n`, and converts the result back. This makes date shifting constant-time with respect to `n`.
 
-## 🏗️ Class Structure
+核心过程先将日期转换为儒略日数（JDN），加上 `n`，再转换回日期，因此运行时间不会随天数跨度增长。
 
-```
-Calendar     (base class — A.D. dates, JDN core)
-└── CalendarEx  (derived class — adds B.C. year support)
-```
+| User year / 用户年份 | Astronomical year / 天文年份 |
+|---:|---:|
+| A.D. 1 / 公元 1 年 | 1 |
+| B.C. 1 / 公元前 1 年 | 0 |
+| B.C. 2 / 公元前 2 年 | -1 |
 
-**Calendar** stores `m_year`, `m_month`, `m_day` as `protected` members and provides:
-- `toJDN()` / `fromJDN(jdn)` — convert between date and Julian Day Number
-- `addDays(n)` — implemented as `fromJDN(toJDN() + n)`, O(1)
-- `virtual print()` — overridden by CalendarEx to show A.D./B.C. prefix
+## Files / 文件结构
 
-**CalendarEx** adds:
-- `toAstroYear(userYear)` — converts user year to astronomical year (B.C. 1 = year 0)
-- `toUserYear(astroYear)` — converts back for display
-- Overrides `print()` and `addDays()` to handle B.C. years transparently
-
----
-
-## 📐 Algorithm: Julian Day Number (JDN)
-
-JDN is a continuous integer count of days starting from 4713 BC Jan 1. Any date difference equals the difference of their JDNs.
-
-**Date → JDN** (Meeus, 1998, Ch. 7):
-```
-if month <= 2: year -= 1, month += 12
-A = year / 100
-B = 2 - A + A/4   (Gregorian correction)
-JDN = ⌊365.25(year+4716)⌋ + ⌊30.6001(month+1)⌋ + day + B - 1524
+```text
+assignment04/
+├── CP_Calendar.h / CP_Calendar.cpp
+├── CP_CalendarEx.h / CP_CalendarEx.cpp
+└── CP_CalendarMain.cpp
 ```
 
-**B.C. year handling (Astronomical Year Numbering):**
+## Build and Run / 编译运行
 
-| User Input | Astronomical Year | Notes |
-|------------|-------------------|-------|
-| 1 (A.D. 1) | 1 | unchanged |
-| -1 (B.C. 1) | 0 | no year zero in history |
-| -2 (B.C. 2) | -1 | |
-
----
-
-## 🧪 Test Results
-
-| Input Date | n | Output Date |
-|------------|---|-------------|
-| A.D. 2026-03-11 | +100 | A.D. 2026-06-19 |
-| A.D. 2000-01-01 | +366 | A.D. 2001-01-02 *(2000 is a leap year)* |
-| A.D. 2024-02-28 | +1 | A.D. 2024-02-29 *(Feb 29 exists in 2024)* |
-| B.C. 0044-03-15 | -30 | B.C. 0044-02-13 |
-| B.C. 0001-12-31 | +1 | **A.D. 0001-01-01** *(B.C./A.D. boundary)* |
-
----
-
-## 🚀 How to Run
-
-```bash
-g++ -std=c++11 CP_CalendarMain.cpp CP_Calendar.cpp CP_CalendarEx.cpp -o calendar
+```powershell
+g++ -std=c++11 -o calendar.exe CP_CalendarMain.cpp CP_Calendar.cpp CP_CalendarEx.cpp
 .\calendar.exe
 ```
 
-**Interaction:**
-- Enter year (positive = A.D., negative = B.C., `0` is invalid)
-- Enter month and day
-- Enter `n` (positive = forward, negative = backward)
-- Type **`q`** at the year prompt to quit
+Enter a positive year for A.D., a negative year for B.C., and `q` at the year prompt to quit. Year `0` is rejected.
+
+公元年份输入正数，公元前年份输入负数；在年份提示处输入 `q` 退出。程序不接受年份 `0`。
+
+## References / 参考资料
+
+- Jean Meeus, *Astronomical Algorithms*, 2nd ed., Chapter 7.
+- Nachum Dershowitz and Edward M. Reingold, *Calendrical Calculations*, 4th ed.
+- ISO 8601:2004, *Representation of dates and times*.
 
 ---
 
-## 📚 References
-
-| # | Source |
-|---|--------|
-| [1] | Meeus, J. (1998). *Astronomical Algorithms* (2nd ed.). Willmann-Bell. Ch. 7. ISBN 978-0-943396-61-3 |
-| [2] | Dershowitz, N. & Reingold, E. M. (2018). *Calendrical Calculations* (4th ed.). Cambridge University Press. ISBN 978-1-107-68316-7 |
-| [3] | ISO 8601:2004 — *Representation of dates and times*. ISO. |
+[Previous / 上一项](../assignment03/README.md) · [Next / 下一项](../assignment05/README.md)

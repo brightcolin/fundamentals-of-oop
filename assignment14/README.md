@@ -1,85 +1,61 @@
-# Assignment 14 — Union Double Hex (IEEE 754 Internals)
+# Assignment 14 — IEEE 754 Double Inspector / IEEE 754 双精度浮点剖析
 
-> IEEE 754 双精度浮点剖析 | 面向对象程序设计基础 第 14 次作业
+[Home / 首页](../README.md) · C++11
 
----
+## Overview / 项目简介
 
-## 📌 Description
+An educational inspection tool that overlays a `double`, a 64-bit unsigned integer, and eight bytes in a union. It displays the sign, exponent, fraction, raw hexadecimal representation, and special values such as NaN and infinity.
 
-Uses a `union` to overlay a `double`, an `unsigned long long`, and a `unsigned char[8]` in the same memory, making every bit of an IEEE 754 double-precision float directly inspectable. Visualises the sign bit, 11-bit exponent, and 52-bit mantissa for arbitrary doubles, and demonstrates special values (NaN, ±Inf).
+这是一个教学用浮点检查工具，通过联合体让 `double`、64 位无符号整数和八个字节共享同一段内存，并显示符号位、指数、尾数、原始十六进制表示以及 NaN、无穷等特殊值。
 
----
-
-## 📁 File Structure
-
-```
-assignment14/
-├── CP_UnionDoubleHex.h          # Union definition + global function declarations
-├── CP_UnionDoubleHex.cpp        # All gb_show* and gb_test* implementations
-├── CP_UnionDoubleHexMain.cpp    # Entry point: interactive walkthrough
-├── CP_UnionDoubleHexTest.h      # Test function declarations
-├── CP_UnionDoubleHexTest.cpp    # gb_runAllTests / gb_printTestSummary
-└── CP_UnionDoubleHexTestMain.cpp # Entry point: automated tests
-```
-
----
-
-## 🏗️ Union Design
+## Memory Layout / 内存布局
 
 ```cpp
 union U_DoubleHex {
-    double             m_double;   // IEEE 754 double
-    unsigned long long m_ull;      // same 8 bytes as a 64-bit integer
-    unsigned char      m_bytes[8]; // same 8 bytes as individual octets
+    double             m_double;
+    unsigned long long m_ull;
+    unsigned char      m_bytes[8];
 };
 ```
 
-All three members share the same 8 bytes. Writing `m_double` and reading `m_ull` gives the raw bit pattern without any cast.
-
----
-
-## 🔢 IEEE 754 Bit Layout (64-bit)
-
-```
-Bit 63     Bits 62–52        Bits 51–0
-  │              │                │
-Sign (1)   Exponent (11)   Mantissa (52)
+```text
+Bit 63       Bits 62–52       Bits 51–0
+Sign (1)     Exponent (11)    Fraction (52)
+符号位        指数位            小数部分
 ```
 
-| Value | Sign | Exponent (raw) | Mantissa |
-|-------|------|----------------|----------|
-| +0.0 | 0 | 0x000 | 0 |
-| −0.0 | 1 | 0x000 | 0 |
-| +∞ | 0 | 0x7FF | 0 |
-| −∞ | 1 | 0x7FF | 0 |
-| NaN | any | 0x7FF | non-zero |
+| Value / 数值 | Exponent / 指数 | Fraction / 小数部分 |
+|---|---|---|
+| `±0.0` | All zero / 全零 | All zero / 全零 |
+| `±∞` | All one / 全一 | All zero / 全零 |
+| NaN | All one / 全一 | Non-zero / 非零 |
 
----
+## Files / 文件结构
 
-## 🔧 Global Functions
+```text
+assignment14/
+├── CP_UnionDoubleHex.h / CP_UnionDoubleHex.cpp
+├── CP_UnionDoubleHexMain.cpp
+├── CP_UnionDoubleHexTest.h / CP_UnionDoubleHexTest.cpp
+└── CP_UnionDoubleHexTestMain.cpp
+```
 
-| Function | Description |
-|----------|-------------|
-| `gb_showDoubleHexMemory(u)` | Prints all 8 bytes in hex, little-endian order |
-| `gb_showDoubleDetail(u)` | Extracts and prints sign, exponent, mantissa fields |
-| `gb_showNaN()` | Demonstrates NaN bit pattern and arithmetic rules |
-| `gb_showPosInf()` | Demonstrates +∞ |
-| `gb_showNegInf()` | Demonstrates −∞ |
-| `gb_showArithmeticRules()` | Prints results of special-value arithmetic (0/0, 1/0, etc.) |
-| `gb_testDoubleHex()` | Runs a set of known-value bit-pattern checks |
+## Build and Run / 编译运行
 
----
-
-## 🚀 How to Compile & Run
-
-```bash
-# Interactive walkthrough
-g++ -std=c++11 CP_UnionDoubleHexMain.cpp CP_UnionDoubleHex.cpp -o main
+```powershell
+# Interactive walkthrough / 交互演示
+g++ -std=c++11 -o main.exe CP_UnionDoubleHex.cpp CP_UnionDoubleHexMain.cpp
 .\main.exe
 
-# Automated tests
-g++ -std=c++11 CP_UnionDoubleHexTestMain.cpp CP_UnionDoubleHex.cpp CP_UnionDoubleHexTest.cpp -o test
-.\test.exe
+# Automated tests / 自动测试
+g++ -std=c++11 -o run_test.exe CP_UnionDoubleHex.cpp CP_UnionDoubleHexTest.cpp CP_UnionDoubleHexTestMain.cpp
+.\run_test.exe
 ```
 
-> Output is platform-dependent for byte order. The code targets little-endian x86/x86-64 (Windows / Linux on Intel).
+The byte order shown by the program is platform-dependent. This implementation targets little-endian x86/x86-64 environments. Reading a non-active union member for type inspection relies on compiler behavior commonly supported by GCC and is not fully portable ISO C++.
+
+程序显示的字节顺序取决于平台，本实现面向小端序 x86/x86-64 环境。通过读取联合体的非活动成员进行类型观察依赖 GCC 常见扩展行为，并非完全可移植的 ISO C++ 写法。
+
+---
+
+[Previous / 上一项](../assignment13/README.md) · [Home / 首页](../README.md)

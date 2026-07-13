@@ -1,121 +1,57 @@
-# Assignment 5 — Complex Number Calculator
+# Assignment 05 — Complex Number Calculator / 复数计算系统
 
-> 复数计算系统 | 面向对象程序设计基础 第 5 次作业 · 第 1 题
+[Home / 首页](../README.md) · C++11
 
----
+## Overview / 项目简介
 
-## 📌 Problem Description
+An implementation of `CP_Complex` with arithmetic, comparison, increment/decrement, compound-assignment, and stream operators. The code separates the class interface from three focused implementation files and includes an equivalence-class test suite.
 
-Implement a complex number class `CP_Complex` with the following operator overloads:
+本项目实现了 `CP_Complex` 复数类，支持算术、比较、自增自减、复合赋值和流运算符。类接口与三组职责明确的实现文件相分离，并配有等价类测试程序。
 
-- Arithmetic: `+`  `-`  `*`  `/`
-- Prefix / postfix: `++`  `--`
-- Comparison: `==`  `!=`
-- Stream: `<<`  `>>`
+## Supported Operators / 支持的运算符
 
-Advanced (optional): equivalence class partition + automated verification program.
+| Category / 类别 | Operators / 运算符 |
+|---|---|
+| Arithmetic / 算术 | `+`, `-`, `*`, `/`, `+=`, `-=`, `*=`, `/=` |
+| Increment / 自增自减 | Prefix and postfix `++`, `--` / 前置与后置 `++`、`--` |
+| Comparison / 比较 | `==`, `!=` |
+| Stream I/O / 流输入输出 | `<<`, `>>` |
 
----
+Division uses `(c²+d²)` as the denominator and throws `std::domain_error` when the divisor is zero.
 
-## 📁 File Structure
+除法以 `(c²+d²)` 为分母；除数为零时抛出 `std::domain_error`。
 
-```
-assignment5/
-├── CP_Complex.h                 # Unified header — all declarations
-├── CP_Complex_core.cpp          # Constructor / Getter·Setter / toString / stream
-├── CP_Complex_arith.cpp         # +  -  *  /  and compound assignment
-├── CP_Complex_incdec.cpp        # ++  --  (prefix & postfix)  ==  !=
-│
-├── CP_ComplexMain.cpp           # Interactive main program
-│
-├── CP_ComplexTest.h             # Test framework header
-├── CP_ComplexTest.cpp           # Assertion helpers / runAll / summary
-├── CP_ComplexTest_arith.cpp     # Equivalence-class tests: +  -  *  /
-├── CP_ComplexTest_incdec.cpp    # Equivalence-class tests: ++  --  ==  !=
-├── CP_ComplexTestMain.cpp       # Automated test entry point
-│
-└── 复数计算系统文档_v4.docx      # Assignment report (Word)
-    复数计算系统文档_v4.pdf       # Assignment report (PDF)
+## Structure / 结构
+
+```text
+assignment05/
+├── CP_Complex.h
+├── CP_Complex_core.cpp       # Construction, access, stream I/O / 构造、访问、流
+├── CP_Complex_arith.cpp      # Arithmetic / 算术
+├── CP_Complex_incdec.cpp     # Increment and comparison / 自增自减与比较
+├── CP_ComplexMain.cpp
+├── CP_ComplexTest.h / CP_ComplexTest.cpp
+├── CP_ComplexTest_arith.cpp
+├── CP_ComplexTest_incdec.cpp
+└── CP_ComplexTestMain.cpp
 ```
 
----
+## Build and Run / 编译运行
 
-## ⚙️ Environment
-
-| Item | Details |
-|------|---------|
-| OS | Windows 10 / 11 |
-| IDE | Visual Studio Code |
-| Compiler | g++ (MinGW-w64) |
-| Standard | C++11 |
-
----
-
-## 🚀 How to Compile & Run
-
-### Interactive Program
-
-```bash
-g++ -std=c++11 CP_ComplexMain.cpp \
-    CP_Complex_core.cpp CP_Complex_arith.cpp CP_Complex_incdec.cpp \
-    -o complex
-
+```powershell
+# Interactive program / 交互程序
+g++ -std=c++11 -o complex.exe CP_Complex_core.cpp CP_Complex_arith.cpp CP_Complex_incdec.cpp CP_ComplexMain.cpp
 .\complex.exe
-```
 
-Enter two complex numbers at the prompts (format: `real imag`, e.g. `3 4` means `3+4i`).  
-Type `q` at the first prompt to quit.
-
-### Automated Test Program (Advanced)
-
-```bash
-g++ -std=c++11 CP_ComplexTestMain.cpp \
-    CP_Complex_core.cpp CP_Complex_arith.cpp CP_Complex_incdec.cpp \
-    CP_ComplexTest.cpp CP_ComplexTest_arith.cpp CP_ComplexTest_incdec.cpp \
-    -o run_test
-
+# Automated tests / 自动测试
+g++ -std=c++11 -o run_test.exe CP_Complex_core.cpp CP_Complex_arith.cpp CP_Complex_incdec.cpp CP_ComplexTest.cpp CP_ComplexTest_arith.cpp CP_ComplexTest_incdec.cpp CP_ComplexTestMain.cpp
 .\run_test.exe
 ```
 
-Expected output: **53 passed, 0 failed, 53 total**
+Complex input uses `real imag`, for example `3 4` for `3+4i`. The test suite contains 53 checks covering general, real-only, imaginary-only, zero, negative, and zero-divisor cases.
+
+复数按 `实部 虚部` 输入，例如 `3 4` 表示 `3+4i`。测试套件包含 53 项检查，覆盖一般复数、纯实数、纯虚数、零、负数和除零情况。
 
 ---
 
-## 🏗️ Architecture
-
-The project uses a **single header + multiple implementation files** design.  
-Each `.cpp` file is responsible for exactly one category of functionality.  
-To add new features (e.g. polar form), create a new `.cpp` and add declarations to the header — no existing file needs to change.
-
-```
-CP_Complex.h        ← declare everything here
-    │
-    ├── CP_Complex_core.cpp      § constructors, output
-    ├── CP_Complex_arith.cpp     § +  -  *  /
-    └── CP_Complex_incdec.cpp    § ++  --  ==  !=
-```
-
----
-
-## 📐 Key Formulas
-
-| Operator | Formula |
-|----------|---------|
-| `+` | `(a+c) + (b+d)i` |
-| `-` | `(a-c) + (b-d)i` |
-| `*` | `(ac-bd) + (ad+bc)i` |
-| `/` | `[(ac+bd) + (bc-ad)i] / (c²+d²)` — throws `domain_error` when divisor is 0 |
-| `++`/`--` | Real part ±1 only; imaginary part unchanged |
-
----
-
-## 🧪 Test Results
-
-| Test file | Cases | Passed |
-|-----------|-------|--------|
-| `CP_ComplexTest_arith.cpp` | 21 | 21 ✅ |
-| `CP_ComplexTest_incdec.cpp` | 32 | 32 ✅ |
-| **Total** | **53** | **53** ✅ |
-
-Tests cover 5 equivalence classes per operator: general complex / pure imaginary / pure real / zero / negative.  
-Division additionally tests EC6: divisor = 0 (must throw `std::domain_error`).
+[Previous / 上一项](../assignment04/README.md) · [Next / 下一项](../assignment06/README.md)

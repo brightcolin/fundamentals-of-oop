@@ -23,7 +23,7 @@ public:
     ~CP_GradeSheet(){}
 
     bool mb_readFile(const char* filename);
-    bool mb_add(const string &id,int grade)
+    bool mb_add(const string &id,int grade);
     bool mb_remove(const string &id);
     void mb_clear();
     bool mb_modify(const string &id,int grade);

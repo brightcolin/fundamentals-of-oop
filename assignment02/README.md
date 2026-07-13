@@ -1,66 +1,62 @@
-# Assignment 2 — GCD & LCM Calculator
+# Assignment 02 — GCD & LCM Calculator / 最大公约数与最小公倍数
 
-> 最大公约数与最小公倍数 | 面向对象程序设计基础 第 2 次作业 · 第 1 题
+[Home / 首页](../README.md) · C++17
 
----
+## Overview / 项目简介
 
-## 📌 Description
+An object-oriented GCD and LCM calculator. `CP_GCD` implements Stein's binary GCD algorithm using shifts and subtraction, while `CP_LCM` composes a `CP_GCD` object and uses a divide-first formula to reduce overflow risk.
 
-A GCD and LCM calculation system built with OOP. The GCD class implements the **Binary GCD (Stein) algorithm** — no division or modulo operations, only bit shifts and subtraction. The LCM class internally composes a GCD object to avoid code duplication.
+这是一个面向对象的最大公约数与最小公倍数计算器。`CP_GCD` 使用移位和减法实现 Stein 二进制最大公约数算法；`CP_LCM` 通过组合复用 `CP_GCD`，并采用先除后乘的公式降低溢出风险。
 
----
+## Design / 设计
 
-## 📁 File Structure
+| Class / 类 | Responsibility / 职责 |
+|---|---|
+| `CP_GCD` | Binary GCD calculation / 二进制最大公约数计算 |
+| `CP_LCM` | LCM calculation through composition / 通过组合计算最小公倍数 |
+| `CP_Test` | Normal, boundary, and exceptional test cases / 正常、边界和异常测试 |
 
-```
-assignment2/
-├── CP_GCD.h             # GCD class declaration
-├── CP_GCD.cpp           # Binary GCD (Stein algorithm) implementation
-├── CP_LCM.h             # LCM class declaration
-├── CP_LCM.cpp           # LCM: composes GCD; uses divide-first formula to prevent overflow
-├── CP_Test.h            # Test class declaration
-├── CP_Test.cpp          # Automated test framework (all-English output)
-├── CP_TestMain.cpp      # Test entry point → compiles to run_test.exe
-└── CP_Main.cpp          # Main program → compiles to main.exe
-```
+The implementation follows the single-responsibility principle: each class owns one focused operation.
 
----
+实现遵循单一职责原则：每个类只负责一项明确任务。
 
-## 🏗️ Class Structure
+### Stein Algorithm / Stein 算法
 
-```
-CP_GCD    — encapsulates Binary GCD algorithm
-CP_LCM    — composes CP_GCD internally; computes LCM via lcm = a / gcd(a,b) * b
-CP_Test   — automated test runner covering normal, boundary, and exception cases
+```text
+1. Extract the common power of two. / 提取公共的 2 的幂。
+2. Make the first operand odd. / 将第一个操作数化为奇数。
+3. Repeatedly remove powers of two and subtract the smaller odd value.
+   反复消除 2 的因子，并用较大的奇数减去较小值。
+4. Restore the common power of two. / 恢复公共的 2 的幂。
 ```
 
-**Single Responsibility Principle:** each class handles exactly one operation. `CP_LCM` reuses `CP_GCD` via composition rather than copying logic.
+LCM is calculated as `a / gcd(a, b) * b`. / 最小公倍数使用 `a / gcd(a, b) * b` 计算。
 
----
+## Files / 文件结构
 
-## ⚙️ Algorithm: Binary GCD (Stein)
-
-Uses only bit shifts (`>>`) and subtraction — no `%` or `/`:
-
-```
-Phase 1: Extract common power of 2 (shift)
-Phase 2: Ensure a is odd
-Phase 3: While b != 0: remove factors of 2 from b, keep a <= b, b = b - a
-Phase 4: Restore common factor: return a << shift
+```text
+assignment02/
+├── CP_GCD.h / CP_GCD.cpp
+├── CP_LCM.h / CP_LCM.cpp
+├── CP_Test.h / CP_Test.cpp
+├── CP_Main.cpp
+└── CP_TestMain.cpp
 ```
 
-**LCM overflow prevention:** compute `a / gcd * b` (divide first, then multiply).
+## Build and Run / 编译运行
 
----
-
-## 🚀 How to Run
-
-```bash
-# Main program
-g++ -std=c++17 CP_Main.cpp CP_GCD.cpp CP_LCM.cpp -o main
+```powershell
+# Interactive program / 交互程序
+g++ -std=c++17 -o main.exe CP_Main.cpp CP_GCD.cpp CP_LCM.cpp
 .\main.exe
 
-# Automated tests
-g++ -std=c++17 CP_TestMain.cpp CP_GCD.cpp CP_LCM.cpp CP_Test.cpp -o run_test
+# Automated tests / 自动测试
+g++ -std=c++17 -o run_test.exe CP_TestMain.cpp CP_GCD.cpp CP_LCM.cpp CP_Test.cpp
 .\run_test.exe
 ```
+
+The two targets contain separate `main()` functions and must be compiled independently. / 两个目标分别包含 `main()`，必须独立编译。
+
+---
+
+[Previous / 上一项](../assignment01/README.md) · [Next / 下一项](../assignment03/README.md)

@@ -1,80 +1,60 @@
-# Assignment 6 — Student Management System (Doubly-Linked List)
+# Assignment 06 — Student System with a Doubly-Linked List / 双向链表学生系统
 
-> 学生管理系统（循环双向链表） | 面向对象程序设计基础 第 6 次作业
+[Home / 首页](../README.md) · C++11
 
----
+## Overview / 项目简介
 
-## 📌 Description
+A console student-management system backed by a circular doubly-linked list. Records remain sorted by student ID and can be inserted, deleted, queried, or listed.
 
-A console-based student management system backed by a **circular doubly-linked list**. Students are stored sorted by ID in ascending order. Supports insert, delete (by ID or by score), and two query modes.
+这是一个基于循环双向链表的控制台学生管理系统。学生记录始终按 ID 升序排列，支持插入、删除、查询和完整显示。
 
----
+## Design / 设计
 
-## 📁 File Structure
-
-```
-assignment6/
-├── CP_Student.h                 # Data class: m_ID, m_score
-├── CP_Student.cpp               # gb_swapStudent helper
-├── CP_ChainDoubleLink.h         # Node class + list operations
-├── CP_ChainDoubleLink.cpp       # Sorted insert, delete, find, count
-├── CP_StudentSystem.h           # Menu-driven application shell
-├── CP_StudentSystem.cpp         # Interactive main loop (6 operations)
-├── CP_StudentSystemTest.h       # Test framework header (7 scenarios)
-├── CP_StudentSystemTest.cpp     # Test implementation
-├── CP_StudentSystemMain.cpp     # Entry point: interactive app
-└── CP_StudentSystemTestMain.cpp # Entry point: automated tests
+```text
+CP_Student                 # ID and score / 学号与成绩
+CP_ChainDoubleLink         # Node and circular-list controller / 节点兼链表控制器
+└── CP_StudentSystem       # Interactive menu / 交互菜单
 ```
 
----
+`CP_ChainDoubleLink` acts as both a node and the head sentinel. The last node points back to the head, and memory is managed explicitly with `new` and `delete`.
 
-## 🏗️ Architecture
+`CP_ChainDoubleLink` 同时承担节点与头哨兵角色。尾节点重新指向头节点，节点内存通过 `new` 和 `delete` 显式管理。
 
+| Operation / 操作 | Behavior / 行为 |
+|---|---|
+| Insert / 插入 | Sorted by ID; duplicate IDs rejected / 按 ID 排序并拒绝重复值 |
+| Delete / 删除 | By ID or all records matching a score / 按 ID 或成绩批量删除 |
+| Query / 查询 | By ID or score / 按 ID 或成绩查询 |
+| Display / 显示 | Print all records in ID order / 按 ID 顺序输出全部记录 |
+
+## Files / 文件结构
+
+```text
+assignment06/
+├── CP_Student.h / CP_Student.cpp
+├── CP_ChainDoubleLink.h / CP_ChainDoubleLink.cpp
+├── CP_StudentSystem.h / CP_StudentSystem.cpp
+├── CP_StudentSystemMain.cpp
+├── CP_StudentSystemTest.h / CP_StudentSystemTest.cpp
+└── CP_StudentSystemTestMain.cpp
 ```
-CP_Student                      ← plain data (ID + score)
-CP_ChainDoubleLink              ← node AND list controller (circular)
-    └── used by CP_StudentSystem ← menu shell
-```
 
-`CP_ChainDoubleLink` serves as both the **node** and the **list head sentinel**. The list is circular: the last node's `m_next` points back to the head, enabling O(n) traversal without a separate header object.
+## Build and Run / 编译运行
 
----
-
-## 🔧 Operations
-
-| Menu | Operation | Detail |
-|------|-----------|--------|
-| 1 | Add students | Sorted insert by ID; rejects duplicate IDs |
-| 2 | Delete by ID | Finds node, unlinks and frees it |
-| 3 | Delete by score | Removes all nodes matching the score |
-| 4 | Query by ID | Returns score or "not found" |
-| 5 | Query by score | Lists all IDs with that score |
-| 6 | Show all | Prints list in sorted order |
-
----
-
-## 🧪 Test Scenarios (7)
-
-| # | Scenario |
-|---|----------|
-| 1 | Sorted insert — out-of-order input produces ascending ID order |
-| 2 | Delete by ID — head / middle / tail / not-found / only node |
-| 3 | Delete by score — multi-match, no-match, clear all |
-| 4 | Query by ID — found (head/mid/tail) / not-found |
-| 5 | Query by score — multi / single / none / empty list |
-| 6 | Duplicate ID — rejected; unique ID accepted |
-| 7 | Mixed operations — insert + delete + query in sequence |
-
----
-
-## 🚀 How to Compile & Run
-
-```bash
-# Interactive app
-g++ -std=c++11 CP_StudentSystemMain.cpp CP_Student.cpp CP_ChainDoubleLink.cpp CP_StudentSystem.cpp -o main
+```powershell
+# Interactive program / 交互程序
+g++ -std=c++11 -o main.exe CP_Student.cpp CP_ChainDoubleLink.cpp CP_StudentSystem.cpp CP_StudentSystemMain.cpp
 .\main.exe
 
-# Automated tests
-g++ -std=c++11 CP_StudentSystemTestMain.cpp CP_Student.cpp CP_ChainDoubleLink.cpp CP_StudentSystemTest.cpp -o test
-.\test.exe
+# Automated tests / 自动测试
+g++ -std=c++11 -o run_test.exe CP_Student.cpp CP_ChainDoubleLink.cpp CP_StudentSystemTest.cpp CP_StudentSystemTestMain.cpp
+.\run_test.exe
 ```
+
+The seven test groups cover ordering, deletion positions, score matches, lookup, duplicate IDs, empty lists, and mixed operations.
+
+七组测试覆盖排序、不同位置删除、成绩匹配、查询、重复 ID、空链表和混合操作。
+
+---
+
+[Previous / 上一项](../assignment05/README.md) · [Next / 下一项](../assignment07/README.md)
