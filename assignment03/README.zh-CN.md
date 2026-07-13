@@ -1,18 +1,18 @@
 [English](README.md) | [简体中文](README.zh-CN.md)
 
-# Assignment 03 — Shape Calculation System
+# 作业 03 — 图形计算系统
 
-[Home](../README.md) · C++11
+[首页](../README.zh-CN.md) · C++11
 
-## Overview
+## 项目简介
 
-A perimeter and area calculator for five geometric shapes. It uses a three-level inheritance design so that all regular polygons share one implementation of their perimeter and area formulas.
+这是一个支持五种几何图形的周长与面积计算器。项目采用三层继承结构，使所有正多边形共享同一套周长和面积公式实现。
 
-## Design
+## 设计
 
 ```text
-CP_Shape (abstract base class)
-├── CP_RegularPolygon (shared implementation)
+CP_Shape（抽象基类）
+├── CP_RegularPolygon（共享实现）
 │   ├── CP_EquilateralTriangle (n = 3)
 │   ├── CP_Square              (n = 4)
 │   ├── CP_RegularPentagon     (n = 5)
@@ -20,16 +20,16 @@ CP_Shape (abstract base class)
 └── CP_Circle
 ```
 
-For a regular polygon with `n` sides of length `s`:
+对于边数为 `n`、边长为 `s` 的正多边形：
 
-| Measurement | Formula |
+| 数值 | 公式 |
 |---|---|
-| Perimeter | `C = n × s` |
-| Area | `A = n × s² / (4 × tan(π/n))` |
+| 周长 | `C = n × s` |
+| 面积 | `A = n × s² / (4 × tan(π/n))` |
 
-`CP_ShapeMain.cpp` stores objects through `CP_Shape*`, demonstrates runtime polymorphism, and prints a summary when the user enters `0`.
+`CP_ShapeMain.cpp` 通过 `CP_Shape*` 保存对象，演示运行时多态，并在用户输入 `0` 时输出汇总结果。
 
-## Files
+## 文件结构
 
 ```text
 assignment03/
@@ -45,7 +45,7 @@ assignment03/
 └── README.zh-CN.md
 ```
 
-## Build and Run
+## 编译运行
 
 ```powershell
 g++ -std=c++11 -o shapes.exe CP_ShapeMain.cpp CP_RegularPolygon.cpp CP_EquilateralTriangle.cpp CP_Square.cpp CP_RegularPentagon.cpp CP_RegularHexagon.cpp CP_Circle.cpp
@@ -54,4 +54,4 @@ g++ -std=c++11 -o shapes.exe CP_ShapeMain.cpp CP_RegularPolygon.cpp CP_Equilater
 
 ---
 
-[Previous](../assignment02/README.md) · [Next](../assignment04/README.md)
+[上一项](../assignment02/README.zh-CN.md) · [下一项](../assignment04/README.zh-CN.md)
